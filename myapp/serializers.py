@@ -1,4 +1,3 @@
-from dataclasses import field
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework.permissions import IsAuthenticated
@@ -8,12 +7,12 @@ from django.contrib.auth.password_validation import validate_password
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id','username','password','first_name', 'last_name')
+        fields = ('id','username','email','password')
         extra_kwargs = {
             'password':{'write_only': True},
         }
     def create(self, validated_data):
-        user = User.objects.create_user(validated_data['username'],     password = validated_data['password']  ,first_name=validated_data['first_name'],  last_name=validated_data['last_name'])
+        user = User.objects.create_user(validated_data['username'], password = validated_data['password']  ,email=validated_data['email'])
         return user
     
 # User serializer
